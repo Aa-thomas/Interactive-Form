@@ -13,38 +13,75 @@ document.getElementById('title').addEventListener('change', (e) => {
 });
 
 // Tshirt info section
-const designColor = document.getElementById('color');
-const designTheme= document.getElementById('design');
-designColor.disabled = true;
-const jsPunsDesignTheme = [
-    designColor[1],
-    designColor[2],
-    designColor[3]
-];
-const heartJsDesignTheme = [
-    designColor[4],
-    designColor[5],
-    designColor[6]
-];
+const designColorMenu = document.getElementById('color');
+const designThemeMenu= document.getElementById('design');
+const jsPunsDesignColors = document.querySelectorAll('option[data-theme="js puns"]')
+const heartJsDesignColors = document.querySelectorAll('option[data-theme="heart js"]')
+designColorMenu.disabled = true;
 
-designTheme.addEventListener('change', (e) => {
-    designColor.disabled = false;
+//Update tshirt color options according to users selected tshirt design option
+designThemeMenu.addEventListener('change', (e) => {
+    designColorMenu.disabled = false;
     if (e.target.value === 'js puns') {
-        for (let i = 0; i < jsPunsDesignTheme.length; i++) {
-            jsPunsDesignTheme[i].hidden = false;
-        }
-        for (let i = 0; i < heartJsDesignTheme.length; i++) {
-            heartJsDesignTheme[i].hidden = true;
+        for (let i = 0; i < jsPunsDesignColors.length; i++) {
+            jsPunsDesignColors[i].selected = true;
+            jsPunsDesignColors[i].hidden = false;
+            heartJsDesignColors[i].hidden = true;
         }
     }else if (e.target.value === 'heart js') {
-        for (let i = 0; i < jsPunsDesignTheme.length; i++) {
-            jsPunsDesignTheme[i].hidden = true;
-        }
-        for (let i = 0; i < heartJsDesignTheme.length; i++) {
-            heartJsDesignTheme[i].hidden = false;
+        for (let i = 0; i < heartJsDesignColors.length; i++) {
+            heartJsDesignColors[i].selected = true;
+            heartJsDesignColors[i].hidden = false;
+            jsPunsDesignColors[i].hidden = true;
         }
     }
 });
+
+//Register for activities section
+const events = document.getElementById('activities');
+const totalCost = document.getElementById('activities-cost');
+let subTotal = 0;
+
+events.addEventListener('change', (e) => {
+    if (e.target.checked === true) {
+        let eventPrice = parseInt(e.target.getAttribute('data-cost'));
+        subTotal = subTotal + eventPrice;
+        totalCost.textContent = `Total: $${subTotal}`;
+    }else if (e.target.checked === false) {
+        let eventPrice = parseInt(e.target.getAttribute('data-cost'));
+        subTotal = subTotal - eventPrice;
+        totalCost.textContent = `Total: $${subTotal}`;
+    }
+})
+
+//Payment info section
+const paymentOptions = document.getElementById('payment');
+const creditCard = document.getElementById('credit-card');
+const bitcoin = document.getElementById('bitcoin');
+const paypal = document.getElementById('paypal');
+//select credit card option by default
+paymentOptions[1].selected = true;
+bitcoin.style.display = 'none';
+paypal.style.display = 'none';
+
+paymentOptions.addEventListener('change', (e) => {
+    if (e.target.value === 'credit-card') {
+        creditCard.style.display = 'block';
+        bitcoin.style.display = 'none';
+        paypal.style.display = 'none';
+    } else if (e.target.value === 'paypal') {
+        paypal.style.display = 'block';
+        bitcoin.style.display = 'none';
+        creditCard.style.display = 'none';
+    } else if (e.target.value === 'bitcoin') {
+        bitcoin.style.display = 'block';
+        creditCard.style.display = 'none';
+        paypal.style.display = 'none';
+    }
+})
+
+
+
 
 
 
