@@ -19,66 +19,66 @@ const jsPunsDesignColors = document.querySelectorAll('option[data-theme="js puns
 const heartJsDesignColors = document.querySelectorAll('option[data-theme="heart js"]')
 designColorMenu.disabled = true;
 
-//Update tshirt color options according to users selected tshirt design option
-designThemeMenu.addEventListener('change', (e) => {
-    designColorMenu.disabled = false;
-    if (e.target.value === 'js puns') {
-        for (let i = 0; i < jsPunsDesignColors.length; i++) {
-            jsPunsDesignColors[i].selected = true;
-            jsPunsDesignColors[i].hidden = false;
-            heartJsDesignColors[i].hidden = true;
+    //Update tshirt color options according to users selected tshirt design option
+    designThemeMenu.addEventListener('change', (e) => {
+        designColorMenu.disabled = false;
+        if (e.target.value === 'js puns') {
+            for (let i = 0; i < jsPunsDesignColors.length; i++) {
+                jsPunsDesignColors[i].selected = true;
+                jsPunsDesignColors[i].hidden = false;
+                heartJsDesignColors[i].hidden = true;
+            }
+        }else if (e.target.value === 'heart js') {
+            for (let i = 0; i < heartJsDesignColors.length; i++) {
+                heartJsDesignColors[i].selected = true;
+                heartJsDesignColors[i].hidden = false;
+                jsPunsDesignColors[i].hidden = true;
+            }
         }
-    }else if (e.target.value === 'heart js') {
-        for (let i = 0; i < heartJsDesignColors.length; i++) {
-            heartJsDesignColors[i].selected = true;
-            heartJsDesignColors[i].hidden = false;
-            jsPunsDesignColors[i].hidden = true;
-        }
-    }
-})
+    })
 
 //Register for activities section
 const activities = document.getElementById('activities');
 const totalCost = document.getElementById('activities-cost');
 let subTotal = 0;
 
-activities.addEventListener('change', (e) => {
-    if (e.target.checked === true) {
-        let activityCost = parseInt(e.target.getAttribute('data-cost'));
-        subTotal = subTotal + activityCost;
-        totalCost.textContent = `Total: $${subTotal}`;
-    }else if (e.target.checked === false) {
-        let activityCost = parseInt(e.target.getAttribute('data-cost'));
-        subTotal = subTotal - activityCost;
-        totalCost.textContent = `Total: $${subTotal}`;
-    }
-})
+    activities.addEventListener('change', (e) => {
+        if (e.target.checked === true) {
+            let activityCost = parseInt(e.target.getAttribute('data-cost'));
+            subTotal = subTotal + activityCost;
+            totalCost.textContent = `Total: $${subTotal}`;
+        }else if (e.target.checked === false) {
+            let activityCost = parseInt(e.target.getAttribute('data-cost'));
+            subTotal = subTotal - activityCost;
+            totalCost.textContent = `Total: $${subTotal}`;
+        }
+    })
 
 //Payment info section
 const paymentOptions = document.getElementById('payment');
 const creditCard = document.getElementById('credit-card');
 const bitcoin = document.getElementById('bitcoin');
 const paypal = document.getElementById('paypal');
-//select credit card option by default
-paymentOptions.querySelector('[value="credit-card"]').selected = true;
-bitcoin.style.display = 'none';
-paypal.style.display = 'none';
+    
+    paymentOptions.querySelector('[value="credit-card"]').selected = true;
+    bitcoin.style.display = 'none';
+    paypal.style.display = 'none';
 
-paymentOptions.addEventListener('change', (e) => {
-    if (e.target.value === 'credit-card') {
-        creditCard.style.display = 'block';
-        bitcoin.style.display = 'none';
-        paypal.style.display = 'none';
-    } else if (e.target.value === 'paypal') {
-        paypal.style.display = 'block';
-        bitcoin.style.display = 'none';
-        creditCard.style.display = 'none';
-    } else if (e.target.value === 'bitcoin') {
-        bitcoin.style.display = 'block';
-        creditCard.style.display = 'none';
-        paypal.style.display = 'none';
-    }
-})
+    paymentOptions.addEventListener('change', (e) => {
+        if (e.target.value === 'credit-card') {
+            creditCard.style.display = 'block';
+            bitcoin.style.display = 'none';
+            paypal.style.display = 'none';
+        } else if (e.target.value === 'paypal') {
+            paypal.style.display = 'block';
+            bitcoin.style.display = 'none';
+            creditCard.style.display = 'none';
+        } else if (e.target.value === 'bitcoin') {
+            bitcoin.style.display = 'block';
+            creditCard.style.display = 'none';
+            paypal.style.display = 'none';
+        }
+    })
 
 //Form Validation Section
 const nameElement = document.querySelector('#name');
@@ -128,15 +128,15 @@ const cvvCodeElement = document.querySelector('#cvv');
             }               
         } 
 
-document.querySelector('form').addEventListener('submit', (e) => {
-    if (nameValidator() || emailValidator() || activityValidator() === false) {
-        e.preventDefault();
-        console.log('failure1')
-    }  
-    if (paymentOptions.querySelector('[value="credit-card"]').selected === true) {
-        if (creditCardValidator() === false) {
+    document.querySelector('form').addEventListener('submit', (e) => {
+        if (!nameValidator() || !emailValidator() || activityValidator() === false) {
             e.preventDefault();
-            console.log('failure2')
+            console.log('failure1')
+        }  
+        if (paymentOptions.querySelector('[value="credit-card"]').selected === true) {
+            if (creditCardValidator() === false) {
+                e.preventDefault();
+                console.log('failure2')
+            }
         }
-    }
-})
+    })
