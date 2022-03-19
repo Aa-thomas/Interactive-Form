@@ -10,7 +10,7 @@ document.getElementById('title').addEventListener('change', (e) => {
     } else {
       otherJobRole.style.display = 'none';
     }
-});
+})
 
 // Tshirt info section
 const designColorMenu = document.getElementById('color');
@@ -35,21 +35,21 @@ designThemeMenu.addEventListener('change', (e) => {
             jsPunsDesignColors[i].hidden = true;
         }
     }
-});
+})
 
 //Register for activities section
-const events = document.getElementById('activities');
+const activities = document.getElementById('activities');
 const totalCost = document.getElementById('activities-cost');
 let subTotal = 0;
 
-events.addEventListener('change', (e) => {
+activities.addEventListener('change', (e) => {
     if (e.target.checked === true) {
-        let eventPrice = parseInt(e.target.getAttribute('data-cost'));
-        subTotal = subTotal + eventPrice;
+        let activityCost = parseInt(e.target.getAttribute('data-cost'));
+        subTotal = subTotal + activityCost;
         totalCost.textContent = `Total: $${subTotal}`;
     }else if (e.target.checked === false) {
-        let eventPrice = parseInt(e.target.getAttribute('data-cost'));
-        subTotal = subTotal - eventPrice;
+        let activityCost = parseInt(e.target.getAttribute('data-cost'));
+        subTotal = subTotal - activityCost;
         totalCost.textContent = `Total: $${subTotal}`;
     }
 })
@@ -60,7 +60,7 @@ const creditCard = document.getElementById('credit-card');
 const bitcoin = document.getElementById('bitcoin');
 const paypal = document.getElementById('paypal');
 //select credit card option by default
-paymentOptions[1].selected = true;
+paymentOptions.querySelector('[value="credit-card"]').selected = true;
 bitcoin.style.display = 'none';
 paypal.style.display = 'none';
 
@@ -80,9 +80,63 @@ paymentOptions.addEventListener('change', (e) => {
     }
 })
 
+//Form Validation Section
+const nameElement = document.querySelector('#name');
+const emailElement = document.querySelector('#email');
+const cardNumberElement = document.querySelector('#cc-num');
+const zipCodeElement = document.querySelector('#zip');
+const cvvCodeElement = document.querySelector('#cvv');
 
+    
+    function nameValidator() {
+        const  nameValue = nameElement.value;
+        const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
+        if (nameIsValid === false) {
+            console.log('nameValidator failed');
+        }
+        return nameIsValid;
+    }
 
+    function emailValidator() {
+        const emailValue = emailElement.value;
+        const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
+        if (emailIsValid === false) {
+            console.log('emailValidator failed');
+        }
+        return emailIsValid
+    }
 
+    function activityValidator() {
+        const activitySectionIsValid = subTotal > 0;
+        if (activitySectionIsValid === false) {
+            console.log('activityValidator failed');
+        }
+        return activitySectionIsValid;
+    }
 
+    
+    
+        function creditCardValidator() {
+            const cardNumberIsValid = /^\d{13,16}$/.test(cardNumberElement.value);
+            const zipCodeIsValid = /^\d{5}$/.test(zipCodeElement.value);
+            const cvvIsValid = /^\d{3}$/.test(cvvCodeElement.value);
+            if (cardNumberIsValid && zipCodeIsValid && cvvIsValid === true) {
+                return true;
+            } else {
+                console.log('creditCardValidator failed')
+                return false;
+            }               
+        } 
 
-
+document.querySelector('form').addEventListener('submit', (e) => {
+    if (nameValidator() || emailValidator() || activityValidator() === false) {
+        e.preventDefault();
+        console.log('failure1')
+    }  
+    if (paymentOptions.querySelector('[value="credit-card"]').selected === true) {
+        if (creditCardValidator() === false) {
+            e.preventDefault();
+            console.log('failure2')
+        }
+    }
+})
