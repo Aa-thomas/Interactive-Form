@@ -127,7 +127,11 @@ const cvvCodeElement = document.querySelector('#cvv');
         const  nameValue = nameElement.value;
         const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
         const nameHint = document.querySelector('#name-hint');
-        if (nameIsValid === false) {
+        if (nameIsValid) {
+            nameElement.parentElement.classList.add('valid');
+            nameElement.parentElement.classList.remove('not-valid');
+            nameHint.style.display = 'none';
+        } else {
             nameElement.parentElement.classList.add('not-valid');
             nameElement.parentElement.classList.remove('valid');
             nameHint.textContent = 'Name can only contain letters';
@@ -136,10 +140,6 @@ const cvvCodeElement = document.querySelector('#cvv');
                 nameHint.textContent = 'Name field cannot be blank'; 
             }
             nameHint.style.display = 'block';
-        } else {
-            nameElement.parentElement.classList.add('valid');
-            nameElement.parentElement.classList.remove('not-valid');
-            nameHint.style.display = 'none';
         }
         return nameIsValid;
     }
@@ -148,20 +148,20 @@ const cvvCodeElement = document.querySelector('#cvv');
         const emailValue = emailElement.value;
         const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
         const emailHint = document.querySelector('#email-hint');
-        if (emailIsValid === false) {
+        
+        if (emailIsValid) {
+            emailElement.parentElement.classList.add('valid');
+            emailElement.parentElement.classList.remove('not-valid');
+            emailHint.style.display = 'none';  
+        } else { 
             emailElement.parentElement.classList.add('not-valid');
             emailElement.parentElement.classList.remove('valid');
-            console.log('emailValidator failed');
             emailHint.textContent = 'Email address must be formatted correctly';
             emailHint.style.display = 'block';
+            console.log('emailValidator failed');
             if (emailValue === '') {
                 emailHint.textContent = 'Email cannot be blank.';
             }
-
-        } else {
-            emailElement.parentElement.classList.add('valid');
-            emailElement.parentElement.classList.remove('not-valid');
-            emailHint.style.display = 'none';
         }
         return emailIsValid
     }
@@ -170,15 +170,15 @@ const cvvCodeElement = document.querySelector('#cvv');
         const activitySectionIsValid = subTotal > 0;
         const activitiesHint = document.querySelector('#activities-hint');
 
-        if (activitySectionIsValid === false) {
-            activitiesElement.classList.add('not-valid');
-            activitiesElement.classList.remove('valid');
-            activitiesHint.style.display = 'block';
-            console.log(subTotal);
-        } else if (activitySectionIsValid === true) {
+        
+        if (activitySectionIsValid) {
             activitiesElement.classList.add('valid');
             activitiesElement.classList.remove('not-valid');
             activitiesHint.style.display = 'none';
+        } else {
+            activitiesElement.classList.add('not-valid');
+            activitiesElement.classList.remove('valid');
+            activitiesHint.style.display = 'block';
         }
         return activitySectionIsValid;
     }
@@ -193,7 +193,7 @@ const cvvCodeElement = document.querySelector('#cvv');
         const cvvIsValid = /^\d{3}$/.test(cvvCodeElement.value);
         const cvvHint = document.querySelector('#cvv-hint'); 
 
-        if (cardNumberIsValid === true) {
+        if (cardNumberIsValid) {
             cardNumberElement.parentElement.classList.add('valid');
             cardNumberElement.parentElement.classList.remove('not-valid');
             cardNumberHint.style.display = 'none';
@@ -202,7 +202,7 @@ const cvvCodeElement = document.querySelector('#cvv');
             cardNumberElement.parentElement.classList.remove('valid');
             cardNumberHint.style.display = 'block';
         }
-        if (zipCodeIsValid === true) {
+        if (zipCodeIsValid) {
             zipCodeElement.parentElement.classList.add('valid');
             zipCodeElement.parentElement.classList.remove('not-valid');
             zipHint.style.display = 'none';
@@ -211,7 +211,7 @@ const cvvCodeElement = document.querySelector('#cvv');
             zipCodeElement.parentElement.classList.remove('valid');
             zipHint.style.display = 'block';
         }   
-        if (cvvIsValid === true) {
+        if (cvvIsValid) {
             cvvCodeElement.parentElement.classList.add('valid');
             cvvCodeElement.parentElement.classList.remove('not-valid');
             cvvHint.style.display = 'none';
