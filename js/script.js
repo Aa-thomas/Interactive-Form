@@ -4,6 +4,7 @@ document.querySelector('#name').focus();
 //Set "other job role" text field to only appear when selected
 const otherJobRole = document.querySelector('#other-job-role');
 otherJobRole.style.display = 'none';
+
 document.querySelector('#title').addEventListener('change', (e) => {
     if (e.target.value === 'other') {
       otherJobRole.style.display = 'block';
@@ -39,11 +40,11 @@ designColorMenu.disabled = true;
 
 //Register for activities section
 const activities = document.querySelector('#activities');
-const totalCost = document.querySelector('#activities-cost');
 const jsFrameWorkshop = document.querySelector('[name="js-frameworks"]');
 const jsLibsWorkshop = document.querySelector('[name="js-libs"]');
 const buildToolsWorkshop = document.querySelector('[name="build-tools"]');
 const nodeWorkshop = document.querySelector('[name="node"]');
+const totalCost = document.querySelector('#activities-cost');
 let subTotal = 0;
 
     activities.addEventListener('change', (e) => {
@@ -56,9 +57,10 @@ let subTotal = 0;
             subTotal = subTotal - activityCost;
             totalCost.textContent = `Total: $${subTotal}`;
         }
+        activityValidator();
     })
 
-    //conflicting times section
+    //Conflicting times section
     activities.addEventListener('click', (e) => {
         if (e.target.name === 'js-libs') {
             jsFrameWorkshop.disabled = !jsFrameWorkshop.disabled;
@@ -72,6 +74,7 @@ let subTotal = 0;
         if (e.target.name === 'build-tools') {
             nodeWorkshop.disabled = !nodeWorkshop.disabled;
         }
+        
     })    
 
 //Payment info section
@@ -100,6 +103,17 @@ const paypal = document.querySelector('#paypal');
         }
     })
 
+//Accessibility section
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('focus', (e) => {
+        e.target.parentElement.classList.add('focus');
+    })
+    checkboxes[i].addEventListener('blur', (e) => {
+        e.target.parentElement.classList.remove('focus');
+    })
+}
+
 //Form Validation Section
 const nameElement = document.querySelector('#name');
 const emailElement = document.querySelector('#email');
@@ -112,19 +126,20 @@ const cvvCodeElement = document.querySelector('#cvv');
     function nameValidator() {
         const  nameValue = nameElement.value;
         const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
+        const nameHint = document.querySelector('#name-hint');
         if (nameIsValid === false) {
             nameElement.parentElement.classList.add('not-valid');
             nameElement.parentElement.classList.remove('valid');
-            document.querySelector('#name-hint').textContent = 'Name can only contain letters';
+            nameHint.textContent = 'Name can only contain letters';
             console.log('nameValidator failed');
             if (nameValue === '') {
-                document.querySelector('#name-hint').textContent = 'Name field cannot be blank'; 
+                nameHint.textContent = 'Name field cannot be blank'; 
             }
-            document.querySelector('#name-hint').style.display = 'block';
+            nameHint.style.display = 'block';
         } else {
             nameElement.parentElement.classList.add('valid');
             nameElement.parentElement.classList.remove('not-valid');
-            document.querySelector('#name-hint').style.display = 'none';
+            nameHint.style.display = 'none';
         }
         return nameIsValid;
     }
@@ -132,35 +147,38 @@ const cvvCodeElement = document.querySelector('#cvv');
     function emailValidator() {
         const emailValue = emailElement.value;
         const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
+        const emailHint = document.querySelector('#email-hint');
         if (emailIsValid === false) {
             emailElement.parentElement.classList.add('not-valid');
             emailElement.parentElement.classList.remove('valid');
             console.log('emailValidator failed');
-            document.querySelector('#email-hint').textContent = 'Email address must be formatted correctly';
-            document.querySelector('#email-hint').style.display = 'block';
+            emailHint.textContent = 'Email address must be formatted correctly';
+            emailHint.style.display = 'block';
             if (emailValue === '') {
-                document.querySelector('#email-hint').textContent = 'Email cannot be blank.';
+                emailHint.textContent = 'Email cannot be blank.';
             }
-                
+
         } else {
             emailElement.parentElement.classList.add('valid');
             emailElement.parentElement.classList.remove('not-valid');
-            document.querySelector('#email-hint').style.display = 'none';
+            emailHint.style.display = 'none';
         }
         return emailIsValid
     }
 
     function activityValidator() {
         const activitySectionIsValid = subTotal > 0;
+        const activitiesHint = document.querySelector('#activities-hint');
+
         if (activitySectionIsValid === false) {
             activitiesElement.classList.add('not-valid');
             activitiesElement.classList.remove('valid');
-            document.querySelector('#activities-hint').style.display = 'block';
-            console.log('activityValidator failed');
-        } else {
+            activitiesHint.style.display = 'block';
+            console.log(subTotal);
+        } else if (activitySectionIsValid === true) {
             activitiesElement.classList.add('valid');
             activitiesElement.classList.remove('not-valid');
-            document.querySelector('#activities-hint').style.display = 'none';
+            activitiesHint.style.display = 'none';
         }
         return activitySectionIsValid;
     }
@@ -169,35 +187,38 @@ const cvvCodeElement = document.querySelector('#cvv');
     
     function creditCardValidator() {
         const cardNumberIsValid = /^\d{13,16}$/.test(cardNumberElement.value);
+        const cardNumberHint = document.querySelector('#cc-hint');
         const zipCodeIsValid = /^\d{5}$/.test(zipCodeElement.value);
+        const zipHint = document.querySelector('#zip-hint');
         const cvvIsValid = /^\d{3}$/.test(cvvCodeElement.value);
-        
+        const cvvHint = document.querySelector('#cvv-hint'); 
+
         if (cardNumberIsValid === true) {
             cardNumberElement.parentElement.classList.add('valid');
             cardNumberElement.parentElement.classList.remove('not-valid');
-            document.querySelector('#cc-hint').style.display = 'none';
+            cardNumberHint.style.display = 'none';
         } else {
             cardNumberElement.parentElement.classList.add('not-valid');
             cardNumberElement.parentElement.classList.remove('valid');
-            document.querySelector('#cc-hint').style.display = 'block';
+            cardNumberHint.style.display = 'block';
         }
         if (zipCodeIsValid === true) {
             zipCodeElement.parentElement.classList.add('valid');
             zipCodeElement.parentElement.classList.remove('not-valid');
-            document.querySelector('#zip-hint').style.display = 'none';
+            zipHint.style.display = 'none';
         } else {
             zipCodeElement.parentElement.classList.add('not-valid');
             zipCodeElement.parentElement.classList.remove('valid');
-            document.querySelector('#zip-hint').style.display = 'block';
+            zipHint.style.display = 'block';
         }   
         if (cvvIsValid === true) {
             cvvCodeElement.parentElement.classList.add('valid');
             cvvCodeElement.parentElement.classList.remove('not-valid');
-            document.querySelector('#cvv-hint').style.display = 'none';
+            cvvHint.style.display = 'none';
         } else {
             cvvCodeElement.parentElement.classList.add('not-valid');
             cvvCodeElement.parentElement.classList.remove('valid');
-            document.querySelector('#cvv-hint').style.display = 'block';
+            cvvHint.style.display = 'block';
         }     
         
         if (cardNumberIsValid && zipCodeIsValid && cvvIsValid === true) {
@@ -208,17 +229,17 @@ const cvvCodeElement = document.querySelector('#cvv');
         }            
     } 
     //Validate credit card on keyup
-    document.querySelector('#credit-card').addEventListener('keyup',() => {
+    creditCard.addEventListener('keyup',() => {
         creditCardValidator();
     })
 
     //validate email on keyup
-    document.querySelector('#email').addEventListener('keyup',() => {
+    emailElement.addEventListener('keyup',() => {
         emailValidator();
     })
 
     //Validate name on keyup
-    document.querySelector('#name').addEventListener('keyup',() => {
+    nameElement.addEventListener('keyup',() => {
         nameValidator();
     })
 
@@ -243,13 +264,3 @@ const cvvCodeElement = document.querySelector('#cvv');
         }
     })
 
-//Accessibility section
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-for (let i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener('focus', (e) => {
-        e.target.parentElement.classList.add('focus');
-    })
-    checkboxes[i].addEventListener('blur', (e) => {
-        e.target.parentElement.classList.remove('focus');
-    })
-}
