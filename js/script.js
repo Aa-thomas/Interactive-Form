@@ -178,16 +178,19 @@ const cvvCodeElement = document.querySelector('#cvv');
             return false;
         }            
     } 
+    //Validate credit card on keyup
     document.querySelector('#credit-card').addEventListener('keyup',(e) => {
         creditCardValidator();
     })
 
+    //Validate All except creditcard
     function validateAll() {
         nameValidator();
         emailValidator();
         activityValidator();
     }
 
+    //Submit functionality
     document.querySelector('form').addEventListener('submit', (e) => {
         if (!nameValidator() || !emailValidator() || activityValidator() === false) {
             e.preventDefault();
