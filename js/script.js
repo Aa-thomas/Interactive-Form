@@ -1,10 +1,10 @@
 //Set focus to first text field when page loads
-document.getElementById('name').focus();
+document.querySelector('#name').focus();
 
 //Set "other job role" text field to only appear when selected
-const otherJobRole = document.getElementById('other-job-role');
+const otherJobRole = document.querySelector('#other-job-role');
 otherJobRole.style.display = 'none';
-document.getElementById('title').addEventListener('change', (e) => {
+document.querySelector('#title').addEventListener('change', (e) => {
     if (e.target.value === 'other') {
       otherJobRole.style.display = 'block';
     } else {
@@ -13,8 +13,8 @@ document.getElementById('title').addEventListener('change', (e) => {
 })
 
 // Tshirt info section
-const designColorMenu = document.getElementById('color');
-const designThemeMenu= document.getElementById('design');
+const designColorMenu = document.querySelector('#color');
+const designThemeMenu= document.querySelector('#design');
 const jsPunsDesignColors = document.querySelectorAll('option[data-theme="js puns"]')
 const heartJsDesignColors = document.querySelectorAll('option[data-theme="heart js"]')
 designColorMenu.disabled = true;
@@ -38,8 +38,8 @@ designColorMenu.disabled = true;
     })
 
 //Register for activities section
-const activities = document.getElementById('activities');
-const totalCost = document.getElementById('activities-cost');
+const activities = document.querySelector('#activities');
+const totalCost = document.querySelector('#activities-cost');
 let subTotal = 0;
 
     activities.addEventListener('change', (e) => {
@@ -55,10 +55,10 @@ let subTotal = 0;
     })
 
 //Payment info section
-const paymentOptions = document.getElementById('payment');
-const creditCard = document.getElementById('credit-card');
-const bitcoin = document.getElementById('bitcoin');
-const paypal = document.getElementById('paypal');
+const paymentOptions = document.querySelector('#payment');
+const creditCard = document.querySelector('#credit-card');
+const bitcoin = document.querySelector('#bitcoin');
+const paypal = document.querySelector('#paypal');
     
     paymentOptions.querySelector('[value="credit-card"]').selected = true;
     bitcoin.style.display = 'none';
