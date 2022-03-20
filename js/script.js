@@ -178,6 +178,9 @@ const cvvCodeElement = document.querySelector('#cvv');
             return false;
         }            
     } 
+    document.querySelector('#credit-card').addEventListener('keyup',(e) => {
+        creditCardValidator();
+    })
 
     function validateAll() {
         nameValidator();
