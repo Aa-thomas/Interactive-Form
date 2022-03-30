@@ -229,25 +229,22 @@ const cvvCodeElement = document.querySelector('#cvv');
         }            
     } 
     //Validate credit card on keyup
-    creditCard.addEventListener('keyup',() => {
-        creditCardValidator();
-    })
+    creditCard.addEventListener('keyup',() => creditCardValidator() )
 
     //validate email on keyup
-    emailElement.addEventListener('keyup',() => {
-        emailValidator();
-    })
+    emailElement.addEventListener('keyup', () => emailValidator() )
 
     //Validate name on keyup
-    nameElement.addEventListener('keyup',() => {
-        nameValidator();
-    })
+    nameElement.addEventListener('keyup', () => nameValidator() )
 
-    //Validate All except creditcard
+    //Validate All fields at once
     function validateAll() {
         nameValidator();
         emailValidator();
         activityValidator();
+        if (paymentOptions[1].selected === true) {
+            creditCardValidator()
+        }
     }
 
     //Submit functionality
@@ -256,11 +253,5 @@ const cvvCodeElement = document.querySelector('#cvv');
             e.preventDefault();
             validateAll();
         }  
-        if (paymentOptions.querySelector('[value="credit-card"]').selected === true) {
-            if (creditCardValidator() === false) {
-                e.preventDefault();
-                creditCardValidator()
-            }
-        }
     })
 
