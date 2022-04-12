@@ -160,7 +160,7 @@ const cvvCodeElement = document.querySelector('#cvv');
             emailHint.style.display = 'block';
             console.log('emailValidator failed');
             if (emailValue === '') {
-                emailHint.textContent = 'Email cannot be blank.';
+                emailHint.textContent = 'Email field cannot be blank.';
             }
         }
         return emailIsValid
