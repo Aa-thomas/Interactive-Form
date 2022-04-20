@@ -245,13 +245,16 @@ const cvvCodeElement = document.querySelector('#cvv');
         if (paymentOptions[1].selected === true) {
             creditCardValidator()
         }
+        if (!nameValidator() || !emailValidator() || !activityValidator() || !creditCardValidator() ) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //Submit functionality
     document.querySelector('form').addEventListener('submit', (e) => {
-        if (!nameValidator() || !emailValidator() || activityValidator() === false) {
+        if (!validateAll() ) {
             e.preventDefault();
-            validateAll();
         }  
     })
-
